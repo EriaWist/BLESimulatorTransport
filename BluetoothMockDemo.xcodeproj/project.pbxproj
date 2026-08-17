@@ -1,0 +1,401 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		100000000000000000000001 /* BluetoothMockDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000001 /* BluetoothMockDemoApp.swift */; };
+		100000000000000000000002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000002 /* ContentView.swift */; };
+		100000000000000000000003 /* BluetoothDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000003 /* BluetoothDemoController.swift */; };
+		100000000000000000000004 /* DemoModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000004 /* DemoModels.swift */; };
+		100000000000000000000005 /* BluetoothMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 200000000000000000000006 /* BluetoothMock.framework */; };
+		100000000000000000000101 /* BLELimits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000101 /* BLELimits.swift */; };
+		100000000000000000000102 /* BLEPacketizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000102 /* BLEPacketizer.swift */; };
+		100000000000000000000103 /* BluetoothMockOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000103 /* BluetoothMockOptions.swift */; };
+		100000000000000000000104 /* CBCentralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000104 /* CBCentralManager.swift */; };
+		100000000000000000000105 /* CBPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000105 /* CBPeripheral.swift */; };
+		100000000000000000000106 /* CBPeripheralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000106 /* CBPeripheralManager.swift */; };
+		100000000000000000000107 /* CoreBluetoothTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000107 /* CoreBluetoothTypes.swift */; };
+		100000000000000000000108 /* Delegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000108 /* Delegates.swift */; };
+		100000000000000000000109 /* GATT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000109 /* GATT.swift */; };
+		100000000000000000000110 /* TCPTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000110 /* TCPTransport.swift */; };
+		100000000000000000000111 /* WireProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000111 /* WireProtocol.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		910000000000000000000001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 600000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 500000000000000000000002;
+			remoteInfo = BluetoothMock;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		200000000000000000000001 /* BluetoothMockDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothMockDemoApp.swift; sourceTree = "<group>"; };
+		200000000000000000000002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		200000000000000000000003 /* BluetoothDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothDemoController.swift; sourceTree = "<group>"; };
+		200000000000000000000004 /* DemoModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoModels.swift; sourceTree = "<group>"; };
+		200000000000000000000005 /* BluetoothMockDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BluetoothMockDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		200000000000000000000006 /* BluetoothMock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BluetoothMock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		200000000000000000000101 /* BLELimits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLELimits.swift; sourceTree = "<group>"; };
+		200000000000000000000102 /* BLEPacketizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEPacketizer.swift; sourceTree = "<group>"; };
+		200000000000000000000103 /* BluetoothMockOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothMockOptions.swift; sourceTree = "<group>"; };
+		200000000000000000000104 /* CBCentralManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBCentralManager.swift; sourceTree = "<group>"; };
+		200000000000000000000105 /* CBPeripheral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBPeripheral.swift; sourceTree = "<group>"; };
+		200000000000000000000106 /* CBPeripheralManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBPeripheralManager.swift; sourceTree = "<group>"; };
+		200000000000000000000107 /* CoreBluetoothTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreBluetoothTypes.swift; sourceTree = "<group>"; };
+		200000000000000000000108 /* Delegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delegates.swift; sourceTree = "<group>"; };
+		200000000000000000000109 /* GATT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GATT.swift; sourceTree = "<group>"; };
+		200000000000000000000110 /* TCPTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCPTransport.swift; sourceTree = "<group>"; };
+		200000000000000000000111 /* WireProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WireProtocol.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		300000000000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				100000000000000000000005 /* BluetoothMock.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		300000000000000000000005 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		400000000000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				400000000000000000000002 /* BluetoothMockDemo */,
+				400000000000000000000004 /* BluetoothMock Sources */,
+				400000000000000000000003 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		400000000000000000000002 /* BluetoothMockDemo */ = {
+			isa = PBXGroup;
+			children = (
+				200000000000000000000001 /* BluetoothMockDemoApp.swift */,
+				200000000000000000000002 /* ContentView.swift */,
+				200000000000000000000003 /* BluetoothDemoController.swift */,
+				200000000000000000000004 /* DemoModels.swift */,
+			);
+			path = Demo/BluetoothMockDemo;
+			sourceTree = "<group>";
+		};
+		400000000000000000000003 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				200000000000000000000005 /* BluetoothMockDemo.app */,
+				200000000000000000000006 /* BluetoothMock.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		400000000000000000000004 /* BluetoothMock Sources */ = {
+			isa = PBXGroup;
+			children = (
+				200000000000000000000101 /* BLELimits.swift */,
+				200000000000000000000102 /* BLEPacketizer.swift */,
+				200000000000000000000103 /* BluetoothMockOptions.swift */,
+				200000000000000000000104 /* CBCentralManager.swift */,
+				200000000000000000000105 /* CBPeripheral.swift */,
+				200000000000000000000106 /* CBPeripheralManager.swift */,
+				200000000000000000000107 /* CoreBluetoothTypes.swift */,
+				200000000000000000000108 /* Delegates.swift */,
+				200000000000000000000109 /* GATT.swift */,
+				200000000000000000000110 /* TCPTransport.swift */,
+				200000000000000000000111 /* WireProtocol.swift */,
+			);
+			path = Sources/BluetoothMock;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		500000000000000000000001 /* BluetoothMockDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 700000000000000000000002 /* Build configuration list for PBXNativeTarget "BluetoothMockDemo" */;
+			buildPhases = (
+				300000000000000000000002 /* Sources */,
+				300000000000000000000001 /* Frameworks */,
+				300000000000000000000003 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				920000000000000000000001 /* PBXTargetDependency */,
+			);
+			name = BluetoothMockDemo;
+			productName = BluetoothMockDemo;
+			productReference = 200000000000000000000005 /* BluetoothMockDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		500000000000000000000002 /* BluetoothMock */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 700000000000000000000003 /* Build configuration list for PBXNativeTarget "BluetoothMock" */;
+			buildPhases = (
+				300000000000000000000004 /* Sources */,
+				300000000000000000000005 /* Frameworks */,
+				300000000000000000000006 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BluetoothMock;
+			productName = BluetoothMock;
+			productReference = 200000000000000000000006 /* BluetoothMock.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		600000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2630;
+				LastUpgradeCheck = 2630;
+				TargetAttributes = {
+					500000000000000000000001 = {
+						CreatedOnToolsVersion = 26.3;
+					};
+					500000000000000000000002 = {
+						CreatedOnToolsVersion = 26.3;
+					};
+				};
+			};
+			buildConfigurationList = 700000000000000000000001 /* Build configuration list for PBXProject "BluetoothMockDemo" */;
+			compatibilityVersion = "Xcode 16.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 400000000000000000000001;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 400000000000000000000003 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				500000000000000000000001 /* BluetoothMockDemo */,
+				500000000000000000000002 /* BluetoothMock */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		300000000000000000000003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		300000000000000000000006 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		300000000000000000000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				100000000000000000000001 /* BluetoothMockDemoApp.swift in Sources */,
+				100000000000000000000002 /* ContentView.swift in Sources */,
+				100000000000000000000003 /* BluetoothDemoController.swift in Sources */,
+				100000000000000000000004 /* DemoModels.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		300000000000000000000004 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				100000000000000000000101 /* BLELimits.swift in Sources */,
+				100000000000000000000102 /* BLEPacketizer.swift in Sources */,
+				100000000000000000000103 /* BluetoothMockOptions.swift in Sources */,
+				100000000000000000000104 /* CBCentralManager.swift in Sources */,
+				100000000000000000000105 /* CBPeripheral.swift in Sources */,
+				100000000000000000000106 /* CBPeripheralManager.swift in Sources */,
+				100000000000000000000107 /* CoreBluetoothTypes.swift in Sources */,
+				100000000000000000000108 /* Delegates.swift in Sources */,
+				100000000000000000000109 /* GATT.swift in Sources */,
+				100000000000000000000110 /* TCPTransport.swift in Sources */,
+				100000000000000000000111 /* WireProtocol.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		920000000000000000000001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 500000000000000000000002 /* BluetoothMock */;
+			targetProxy = 910000000000000000000001 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		800000000000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		800000000000000000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		800000000000000000000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "BluetoothMock Demo";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.BluetoothMockDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = iphonesimulator;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		800000000000000000000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "BluetoothMock Demo";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.BluetoothMockDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = iphonesimulator;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		800000000000000000000005 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MACH_O_TYPE = staticlib;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.BluetoothMockDemoFramework;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = iphonesimulator;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		800000000000000000000006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MACH_O_TYPE = staticlib;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.BluetoothMockDemoFramework;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = iphonesimulator;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		700000000000000000000001 /* Build configuration list for PBXProject "BluetoothMockDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				800000000000000000000001 /* Debug */,
+				800000000000000000000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		700000000000000000000002 /* Build configuration list for PBXNativeTarget "BluetoothMockDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				800000000000000000000003 /* Debug */,
+				800000000000000000000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		700000000000000000000003 /* Build configuration list for PBXNativeTarget "BluetoothMock" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				800000000000000000000005 /* Debug */,
+				800000000000000000000006 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 600000000000000000000001 /* Project object */;
+}
