@@ -193,7 +193,9 @@ public final class CBPeripheralManager: NSObject, @unchecked Sendable {
         let server = TCPServer(
             port: configuration.port,
             queue: managerQueue,
-            latencyMilliseconds: configuration.latencyMilliseconds
+            latencyMilliseconds: configuration.latencyMilliseconds,
+            fragmentSize: configuration.tcpFragmentSize,
+            disconnectAfterSentFrames: configuration.disconnectAfterSentFrames
         )
         self.server = server
         server.onReady = { [weak self] in

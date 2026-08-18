@@ -10,6 +10,10 @@ public enum BluetoothMockOption {
     public static let attMTU = "BluetoothMock.attMTU"
     /// Artificial one-way transport latency, in milliseconds. Defaults to zero.
     public static let latencyMilliseconds = "BluetoothMock.latencyMilliseconds"
+    /// Maximum bytes placed in each TCP send. Positive values intentionally fragment frames.
+    public static let tcpFragmentSize = "BluetoothMock.tcpFragmentSize"
+    /// Cancels this endpoint after sending the given number of complete wire frames.
+    public static let disconnectAfterSentFrames = "BluetoothMock.disconnectAfterSentFrames"
     /// Simulated discovery RSSI. Defaults to -45 dBm and is clamped to -127...20.
     public static let rssi = "BluetoothMock.rssi"
     /// Stable UUID used by a peripheral manager. Accepts `UUID` or a UUID string.
@@ -24,6 +28,8 @@ public struct BluetoothMockConfiguration: Equatable, Sendable {
     public var port: UInt16
     public var attMTU: Int
     public var latencyMilliseconds: Int
+    public var tcpFragmentSize: Int?
+    public var disconnectAfterSentFrames: Int?
     public var rssi: Int
     public var peripheralIdentifier: UUID?
     public var automaticATTResponses: Bool
@@ -33,6 +39,8 @@ public struct BluetoothMockConfiguration: Equatable, Sendable {
         port: UInt16 = 7_799,
         attMTU: Int = BLELimits.minimumATTMTU,
         latencyMilliseconds: Int = 0,
+        tcpFragmentSize: Int? = nil,
+        disconnectAfterSentFrames: Int? = nil,
         rssi: Int = -45,
         peripheralIdentifier: UUID? = nil,
         automaticATTResponses: Bool = false
@@ -41,6 +49,8 @@ public struct BluetoothMockConfiguration: Equatable, Sendable {
         self.port = port
         self.attMTU = min(max(attMTU, BLELimits.minimumATTMTU), BLELimits.maximumATTMTU)
         self.latencyMilliseconds = max(0, latencyMilliseconds)
+        self.tcpFragmentSize = tcpFragmentSize.flatMap { $0 > 0 ? $0 : nil }
+        self.disconnectAfterSentFrames = disconnectAfterSentFrames.flatMap { $0 > 0 ? $0 : nil }
         self.rssi = min(max(rssi, -127), 20)
         self.peripheralIdentifier = peripheralIdentifier
         self.automaticATTResponses = automaticATTResponses
@@ -51,6 +61,8 @@ public struct BluetoothMockConfiguration: Equatable, Sendable {
         let portNumber = options?[BluetoothMockOption.tcpPort] as? NSNumber
         let mtuNumber = options?[BluetoothMockOption.attMTU] as? NSNumber
         let latencyNumber = options?[BluetoothMockOption.latencyMilliseconds] as? NSNumber
+        let fragmentSizeNumber = options?[BluetoothMockOption.tcpFragmentSize] as? NSNumber
+        let disconnectAfterNumber = options?[BluetoothMockOption.disconnectAfterSentFrames] as? NSNumber
         let rssiNumber = options?[BluetoothMockOption.rssi] as? NSNumber
         let automaticNumber = options?[BluetoothMockOption.automaticATTResponses] as? NSNumber
         let configuredIdentifier = options?[BluetoothMockOption.peripheralIdentifier] as? UUID
@@ -61,6 +73,8 @@ public struct BluetoothMockConfiguration: Equatable, Sendable {
             port: UInt16(clamping: portNumber?.intValue ?? 7_799),
             attMTU: mtuNumber?.intValue ?? BLELimits.minimumATTMTU,
             latencyMilliseconds: latencyNumber?.intValue ?? 0,
+            tcpFragmentSize: fragmentSizeNumber?.intValue,
+            disconnectAfterSentFrames: disconnectAfterNumber?.intValue,
             rssi: rssiNumber?.intValue ?? -45,
             peripheralIdentifier: configuredIdentifier,
             automaticATTResponses: automaticNumber?.boolValue ?? false

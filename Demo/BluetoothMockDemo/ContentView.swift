@@ -10,6 +10,7 @@ struct ContentView: View {
                 roleSection
                 dataSection
                 limitsSection
+                connectionFaultSection
                 logSection
             }
             .navigationTitle("BluetoothMock Demo")
@@ -29,6 +30,9 @@ struct ContentView: View {
                 }
             }
             .pickerStyle(.segmented)
+            .onChange(of: controller.selectedRole) {
+                controller.selectedRoleDidChange()
+            }
 
             LabeledContent("狀態") {
                 Label(controller.statusText, systemImage: statusSymbol)
@@ -37,6 +41,7 @@ struct ContentView: View {
             }
 
             LabeledContent("TCP", value: "127.0.0.1:\(controller.port)")
+            LabeledContent("連線模式", value: controller.connectionScenario.title)
 
             HStack {
                 Button(controller.isRunning ? "套用角色並重啟" : "啟動") {
@@ -86,6 +91,58 @@ struct ContentView: View {
                 controller.testOversizedPayload()
             }
             .disabled(!controller.isConnected)
+
+            Button(action: controller.testAttributeValueLimit) {
+                Label("測試 513-byte Attribute", systemImage: "externaldrive.badge.exclamationmark")
+            }
+
+            Button(action: controller.testAdvertisingLimit) {
+                Label("測試超過 31-byte Advertising", systemImage: "antenna.radiowaves.left.and.right.slash")
+            }
+
+            Button(action: controller.testInvalidBluetoothUUID) {
+                Label("測試無效 BLE UUID", systemImage: "number.circle.fill")
+            }
+
+            Button(action: controller.testMissingReadPermission) {
+                Label("測試 Read 缺少權限", systemImage: "lock.trianglebadge.exclamationmark")
+            }
+            .disabled(controller.selectedRole != .peripheral || !controller.isRunning)
+
+            Button(action: controller.testUnsupportedNotification) {
+                Label("測試不支援 Notification", systemImage: "bell.slash.fill")
+            }
+        }
+    }
+
+    private var connectionFaultSection: some View {
+        Section {
+            LabeledContent("目前情境") {
+                VStack(alignment: .trailing, spacing: 2) {
+                    Text(controller.connectionScenario.title)
+                    Text(controller.connectionScenario.detail)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.trailing)
+                }
+            }
+
+            Button(action: controller.startNormalConnection) {
+                Label("正常連線並重啟", systemImage: "arrow.clockwise.circle")
+            }
+
+            Button(action: controller.startPoorConnection) {
+                Label("高延遲＋逐 byte 拆包並重啟", systemImage: "tortoise.fill")
+            }
+
+            Button(action: controller.startDisconnectDuringRead) {
+                Label("Read 傳輸途中斷線並重啟", systemImage: "cable.connector.slash")
+            }
+            .disabled(controller.selectedRole != .central)
+        } header: {
+            Text("連線品質與斷線測試")
+        } footer: {
+            Text("劣質連線可在任一端啟用；Read 中斷情境需在 Central 執行，並會驗證 pending callback 與斷線事件。")
         }
     }
 
@@ -136,6 +193,7 @@ struct ContentView: View {
         case .info: return .secondary
         case .sent: return .blue
         case .received: return .green
+        case .passed: return .green
         case .error: return .red
         }
     }

@@ -175,7 +175,9 @@ public final class CBCentralManager: NSObject, @unchecked Sendable {
                 host: configuration.host,
                 port: configuration.port,
                 queue: managerQueue,
-                latencyMilliseconds: configuration.latencyMilliseconds
+                latencyMilliseconds: configuration.latencyMilliseconds,
+                fragmentSize: configuration.tcpFragmentSize,
+                disconnectAfterSentFrames: configuration.disconnectAfterSentFrames
             )
             client = peer
             peer.onStateChange = { [weak self, weak peer] state in
@@ -202,15 +204,17 @@ public final class CBCentralManager: NSObject, @unchecked Sendable {
 
     private func handleTransportClosure(error: Error?, generation: Int) {
         client = nil
+        let closureError = error ?? BluetoothMockError.transport("Connection closed before the operation completed.")
+        failPendingOperations(error: closureError)
         if let peripheral = remotePeripheral, peripheral.state == .connected || peripheral.state == .disconnecting {
             peripheral.state = .disconnected
             callDelegate {
-                $0.centralManager(self, didDisconnectPeripheral: peripheral, error: error)
+                $0.centralManager(self, didDisconnectPeripheral: peripheral, error: closureError)
             }
         } else if let peripheral = remotePeripheral, peripheral.state == .connecting {
             peripheral.state = .disconnected
             callDelegate {
-                $0.centralManager(self, didFailToConnect: peripheral, error: error)
+                $0.centralManager(self, didFailToConnect: peripheral, error: closureError)
             }
         }
         scheduleRetry(generation: generation)
@@ -255,6 +259,7 @@ public final class CBCentralManager: NSObject, @unchecked Sendable {
             let wasConnecting = peripheral.state == .connecting
             peripheral.state = .disconnected
             let error = reason.map { BluetoothMockError.transport($0) }
+            failPendingOperations(error: error ?? BluetoothMockError.notConnected)
             if wasConnecting {
                 callDelegate { $0.centralManager(self, didFailToConnect: peripheral, error: error) }
             } else {
@@ -368,6 +373,12 @@ public final class CBCentralManager: NSObject, @unchecked Sendable {
                 $0.peripheral(peripheral, didUpdateNotificationStateFor: characteristic, error: error)
             }
         }
+    }
+
+    private func failPendingOperations(error: Error) {
+        let operations = Array(pendingOperations.values)
+        pendingOperations.removeAll()
+        operations.forEach { fail($0, error: error) }
     }
 
     private func callDelegate(_ body: @escaping (CBCentralManagerDelegate) -> Void) {

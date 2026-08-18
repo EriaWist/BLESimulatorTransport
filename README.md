@@ -16,7 +16,7 @@ import CoreBluetooth
 
 ## 直接試用
 
-根目錄的 `BluetoothMockDemo.xcodeproj` 是可直接執行的 SwiftUI App。同一個 App 可選擇 Central 或 Peripheral 角色；在兩台 Simulator 各啟動一個角色，即可測試 read、write、notification 與 MTU 超限拒絕。操作順序請看 [Demo 說明](Demo/README.md)。
+根目錄的 `BluetoothMockDemo.xcodeproj` 是可直接執行的 SwiftUI App。同一個 App 可選擇 Central 或 Peripheral 角色；在兩台 Simulator 各啟動一個角色，即可從 UI 點擊測試 read、write、notification、BLE 限制、高延遲／TCP 拆包與 Read 傳輸途中斷線。操作順序請看 [Demo 說明](Demo/README.md)。
 
 ## 工作方式
 

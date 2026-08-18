@@ -7,6 +7,29 @@ enum TCPPeerState {
     case cancelled
 }
 
+struct TCPTransmissionPolicy: Equatable, Sendable {
+    let latencyMilliseconds: Int
+    let fragmentSize: Int?
+    let disconnectAfterSentFrames: Int?
+
+    init(latencyMilliseconds: Int, fragmentSize: Int?, disconnectAfterSentFrames: Int?) {
+        self.latencyMilliseconds = max(0, latencyMilliseconds)
+        self.fragmentSize = fragmentSize.flatMap { $0 > 0 ? $0 : nil }
+        self.disconnectAfterSentFrames = disconnectAfterSentFrames.flatMap { $0 > 0 ? $0 : nil }
+    }
+
+    func fragments(of frame: Data) -> [Data] {
+        guard let fragmentSize, frame.count > fragmentSize else { return [frame] }
+        return stride(from: 0, to: frame.count, by: fragmentSize).map { offset in
+            frame.subdata(in: offset..<min(offset + fragmentSize, frame.count))
+        }
+    }
+
+    func shouldDisconnect(afterSentFrames count: Int) -> Bool {
+        disconnectAfterSentFrames.map { count >= $0 } ?? false
+    }
+}
+
 final class TCPPeer: @unchecked Sendable {
     let id = UUID()
     let remoteEndpoint: NWEndpoint
@@ -16,25 +39,36 @@ final class TCPPeer: @unchecked Sendable {
 
     private let connection: NWConnection
     private let queue: DispatchQueue
-    private let latency: DispatchTimeInterval
+    private let transmissionPolicy: TCPTransmissionPolicy
     private var decoder = BLEFrameDecoder()
+    private var pendingFrames: [Data] = []
+    private var isSendingFrame = false
+    private var sentFrameCount = 0
 
     init(
         connection: NWConnection,
         queue: DispatchQueue,
-        latencyMilliseconds: Int
+        latencyMilliseconds: Int,
+        fragmentSize: Int? = nil,
+        disconnectAfterSentFrames: Int? = nil
     ) {
         self.connection = connection
         self.remoteEndpoint = connection.endpoint
         self.queue = queue
-        self.latency = .milliseconds(max(0, latencyMilliseconds))
+        self.transmissionPolicy = TCPTransmissionPolicy(
+            latencyMilliseconds: latencyMilliseconds,
+            fragmentSize: fragmentSize,
+            disconnectAfterSentFrames: disconnectAfterSentFrames
+        )
     }
 
     convenience init(
         host: String,
         port: UInt16,
         queue: DispatchQueue,
-        latencyMilliseconds: Int
+        latencyMilliseconds: Int,
+        fragmentSize: Int? = nil,
+        disconnectAfterSentFrames: Int? = nil
     ) throws {
         guard port > 0, let networkPort = NWEndpoint.Port(rawValue: port) else {
             throw BluetoothMockError.invalidPort(port)
@@ -48,7 +82,9 @@ final class TCPPeer: @unchecked Sendable {
                 using: parameters
             ),
             queue: queue,
-            latencyMilliseconds: latencyMilliseconds
+            latencyMilliseconds: latencyMilliseconds,
+            fragmentSize: fragmentSize,
+            disconnectAfterSentFrames: disconnectAfterSentFrames
         )
     }
 
@@ -73,10 +109,10 @@ final class TCPPeer: @unchecked Sendable {
     func send(_ message: BLEWireMessage) {
         do {
             let data = try BLEFrameCodec.encode(message)
-            queue.asyncAfter(deadline: .now() + latency) { [weak self] in
-                self?.connection.send(content: data, completion: .contentProcessed { error in
-                    if let error { self?.onStateChange?(.failed(error)) }
-                })
+            queue.async { [weak self] in
+                guard let self else { return }
+                self.pendingFrames.append(data)
+                self.sendNextFrameIfNeeded()
             }
         } catch {
             onStateChange?(.failed(error))
@@ -85,6 +121,43 @@ final class TCPPeer: @unchecked Sendable {
 
     func cancel() {
         connection.cancel()
+    }
+
+    private func sendNextFrameIfNeeded() {
+        guard !isSendingFrame, !pendingFrames.isEmpty else { return }
+        isSendingFrame = true
+        let frame = pendingFrames.removeFirst()
+        let delay = DispatchTimeInterval.milliseconds(transmissionPolicy.latencyMilliseconds)
+        queue.asyncAfter(deadline: .now() + delay) { [weak self] in
+            guard let self else { return }
+            self.send(fragments: self.transmissionPolicy.fragments(of: frame), at: 0)
+        }
+    }
+
+    private func send(fragments: [Data], at index: Int) {
+        connection.send(content: fragments[index], completion: .contentProcessed { [weak self] error in
+            guard let self else { return }
+            self.queue.async {
+                if let error {
+                    self.isSendingFrame = false
+                    self.onStateChange?(.failed(error))
+                    return
+                }
+                let nextIndex = index + 1
+                if nextIndex < fragments.count {
+                    self.send(fragments: fragments, at: nextIndex)
+                    return
+                }
+                self.sentFrameCount += 1
+                self.isSendingFrame = false
+                if self.transmissionPolicy.shouldDisconnect(afterSentFrames: self.sentFrameCount) {
+                    self.pendingFrames.removeAll()
+                    self.connection.cancel()
+                } else {
+                    self.sendNextFrameIfNeeded()
+                }
+            }
+        })
     }
 
     private func receiveNextChunk() {
@@ -122,14 +195,24 @@ final class TCPServer: @unchecked Sendable {
 
     private let port: UInt16
     private let queue: DispatchQueue
-    private let latencyMilliseconds: Int
+    private let transmissionPolicy: TCPTransmissionPolicy
     private var listener: NWListener?
     private var peers: [UUID: TCPPeer] = [:]
 
-    init(port: UInt16, queue: DispatchQueue, latencyMilliseconds: Int) {
+    init(
+        port: UInt16,
+        queue: DispatchQueue,
+        latencyMilliseconds: Int,
+        fragmentSize: Int? = nil,
+        disconnectAfterSentFrames: Int? = nil
+    ) {
         self.port = port
         self.queue = queue
-        self.latencyMilliseconds = latencyMilliseconds
+        self.transmissionPolicy = TCPTransmissionPolicy(
+            latencyMilliseconds: latencyMilliseconds,
+            fragmentSize: fragmentSize,
+            disconnectAfterSentFrames: disconnectAfterSentFrames
+        )
     }
 
     func start() throws {
@@ -165,7 +248,9 @@ final class TCPServer: @unchecked Sendable {
             let peer = TCPPeer(
                 connection: connection,
                 queue: self.queue,
-                latencyMilliseconds: self.latencyMilliseconds
+                latencyMilliseconds: self.transmissionPolicy.latencyMilliseconds,
+                fragmentSize: self.transmissionPolicy.fragmentSize,
+                disconnectAfterSentFrames: self.transmissionPolicy.disconnectAfterSentFrames
             )
             self.peers[peer.id] = peer
             peer.onMessage = { [weak self, weak peer] message in
